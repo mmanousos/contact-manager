@@ -1,0 +1,16 @@
+[
+  {
+    "full_name": "Andrew",
+    "phone_number": "111-222-3333",
+    "email": "andrew@test.com",
+    "tags": "home",
+    "id": 2
+  },
+  {
+    "full_name": "test",
+    "phone_number": "111-222-3333",
+    "email": "test@test.com",
+    "tags": "home,casual",
+    "id": 3
+  }
+]

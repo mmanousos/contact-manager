@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/contacts.css">
+  <title>Contacts</title>
+  <script src="javascripts/jquery.js"></script>
+  <script src="javascripts/handlebars.js"></script>
+  <script src="javascripts/contacts.js"></script>
+</head>
+<body>
+  <header>
+    <a href="#"><h1>Contact Manager</h1></a>
+    <h3>Using Node, jQuery, and Handlebars</h3>
+  </header>
+  <main>
+    <section id="main">
+      <p id="search">
+        <button class="add-contact">Add contact</button>
+        <button class="add-category">Add category</button>
+        <input type="input" id="search-box" placeholder="Search">
+      </p>
+      <div id="labels">
+        <script id="categories" type="text/x-handlebars">
+          {{#if categories}}
+            <p>Categories</p>
+            <ul id="tags">
+              {{#each categories}}
+                <li><a href="">{{this}}</a></li>
+              {{/each}}  
+              <li><a class="show-all" href="">show all</a></li>
+            </ul>
+          {{/if}} 
+        </script>
+      </div>
+      <div id="no-contacts" class="hidden">
+        <h2>There are no contacts.</h2>
+        <button class="add-contact">Add contact</button>
+      </div>
+      <p id="contacts">
+        <script id="contacts" type="text/x-handlebars">
+          {{#each contacts}}
+            {{> contactPartial}}
+          {{/each}}
+        </script>
+        <script id="contactPartial" type="text/x-handlebars">
+          <div class="contact" id={{id}}>
+            <h3>{{full_name}}</h3>
+            <p class="label">Phone Number:</p>
+            <p class="data">{{phone_number}}</p>
+            <p class="label">Email:</p>
+            <p class="data">{{email}}</p>
+            <p class="label">Tags:</p>
+            <p class="data">
+              {{#if tags}}
+                {{tags}}
+              {{/if}}
+            </p>
+            <button class="edit">Edit</button>
+            <button class="delete" action="/api/contacts/" method="DELETE">Delete</button>
+          </div>
+        </script>
+      </p>
+    </section>
+    <section id="add-contact" class="hidden">
+      <form novalidate action="/api/contacts/" method="POST">
+        <h2>Add Contact</h2>
+      </form>
+    </section>
+    </section>
+    <section id="add-category" class="hidden">
+      <h2>Add Category</h2>
+      <div class="message"></div>
+      <form novalidate action="">
+        <dl>
+          <dt><label for="category">Category</label></dt>
+          <dd><input type="text" id="category" name="category" required></dd>
+          <dd class="message"></dd>
+        </dl>
+        <input type="submit" value="Add Category">
+        <button class="return">Return to Contacts</button>
+      </form>
+    </section>
+
+    <section id="edit" class="hidden">
+      <form novalidate action="/api/contacts/" method="PUT">
+        <h2>Edit Contact</h2>
+      </form>
+    </section>
+
+    <script id="addEdit" type="text/x-handlebars">     
+      <input type="text" name="id" value="{{id}}" class="hidden">
+      <dl>
+        <dt><label for="full-name">Full Name</label></dt>
+        <dd>
+          <input type="text" id="full-name" name="full_name" required 
+            value="{{full_name}}" placeholder="Contact Name">
+          <dd class="message"></dd>
+        </dd>
+      </dl>
+      <dl>
+        <dt><label for="email">Email Address</label></dt>
+        <dd>
+          <input name="email" id="email" type="email" required 
+            value="{{email}}" placeholder="email@domain.com" 
+            pattern=".+@.+\..+"> 
+        </dd>
+        <dd class="message"></dd>
+      </dl>
+      <dl>
+        <dt><label for="phone">Telephone Number</label></dt>
+        <dd>
+          <input type="text" id="phone" name="phone_number" required 
+            value="{{phone_number}}" placeholder="xxx-xxx-xxxx" minlength="10"
+            pattern="\d{3}-\d{3}-\d{4}">
+          <dd class="message"></dd>  
+        </dd>
+      </dl>
+      <dl>
+        <dt>Tags</dt>  
+        <dd>
+          {{#if allTags}}
+            {{#each allTags}}
+              <dl class="tags">
+                <dd><input type="checkbox" id="{{tag}}" name="tags" value="{{tag}}" {{checkedTagsHelper tags tag}}></dd>
+                <dt><label for="{{tag}}">{{tag}}</label></dt>
+              </dl>
+            {{/each}}
+          {{else categories}}
+            <dl class="tags">
+              <dd><input type="checkbox" id="{{this}}" name="tags" value="{{this}}"></dd>
+              <dt><label for="{{this}}">{{this}}</label></dt>
+            </dl>
+          {{/if}}  
+        </dd>
+      </dl>
+      <p><input type="submit"></p>
+      <button class="add-category">Add category</button>
+      <button class="return">Cancel</button>
+    </script>  
+
+  </main>
+  <footer>
+    <p>
+      Developed by <a href="http://www.melissamanousos.com" target="_blank">Melissa Manousos</a>.
+    </p>
+  </footer>
+</body>
+</html>
