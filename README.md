@@ -1,2 +1,3 @@
 # contact-manager
-Contact manager application to practice JavaScript
+
+Contact manager application using JavaScript and jQuery
